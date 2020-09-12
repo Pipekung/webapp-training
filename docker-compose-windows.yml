@@ -11,12 +11,12 @@ services:
         ports: 
             - 80:80
         volumes: 
-            - /c/web/web4/:/var/www/html
-            - /c/web/web4/nginx/conf.d/:/etc/nginx/conf.d/
+            - ./:/var/www/html
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
         depends_on: 
             - php-fpm
             - db
     php-fpm:
         image: pipekung/php-fpm:7.4-alpine
         volumes: 
-            - /c/web/web4/:/var/www/html
+            - ./:/var/www/html
