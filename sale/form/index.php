@@ -1,3 +1,6 @@
+<?php
+require_once '../../db.php';
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,7 +14,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/checkout/">
 
     <!-- Bootstrap core CSS -->
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -35,42 +38,40 @@
   <body class="bg-light">
     <div class="container">
   <div class="py-5 text-center">
-    <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <img class="d-block mx-auto mb-4" src="../../assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h2>Checkout form</h2>
     <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
   </div>
 
   <div class="row">
-    <form method="POST" 
-    action="save.php?id=<?php echo $_GET['id'] ?>">
+    <form class="col-md-12">
+      <div class="row">
+        <div class="form-group col-10">
+          <label>สินค้า</label>
+          <select name="product_id" class="form-control">
 <?php
-require_once '../db.php';
-$stmt = $dbh->prepare('select * from product 
-    where id=:id');
-$stmt->execute(['id' => $_GET['id']]);
-$product = $stmt->fetchObject();
+$stmt = $dbh->prepare('select id,name from product');
+$stmt->execute();
+$products = $stmt->fetchAll();
+foreach($products as $product) {
+  echo "<option value='{$product['id']}'>{$product['name']}</option>";
+}
 ?>
-      <label>ชื่อสินค้า:</label>
-      <input name="name" 
-      value="<?php echo $product->name; ?>">
-      <br>
-      
-      <label>จำนวน:</label>
-      <input name="amount"
-      value="<?php echo $product->amount; ?>">
-      <br>
-      
-      <label>ราคา:</label>
-      <input name="price"
-      value="<?php echo $product->price; ?>">
-      <br>
-      
-      <label>วันที่:</label>
-      <input name="date"
-      value="<?php echo $product->date; ?>">
-      <br>
+          </select>
+        </div>
+  
+        <div class="form-group col-2">
+          <label>จำนวน</label>
+          <input type="text" class="form-control" name="amount">
+        </div>
+      </div>
 
-      <button type="submit">บันทึกข้อมูล</button>
+      <br>
+      <div class="form-group col-12 row">
+        <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+        <a href="../index.php" class="btn btn-default">ย้อนกลับ</a>
+      </div>
+      
     </form>
   </div>
 
@@ -84,6 +85,6 @@ $product = $stmt->fetchObject();
   </footer>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+      <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../../assets/dist/js/bootstrap.bundle.min.js"></script>
         <script src="form-validation.js"></script></body>
 </html>

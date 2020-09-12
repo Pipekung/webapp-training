@@ -28,7 +28,7 @@ require_once '../db.php';
         }
       }
     </style>
-    <link href="sale.css" rel="stylesheet">
+    <link href="product.css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -50,12 +50,12 @@ require_once '../db.php';
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="/product/index.php">
+            <a class="nav-link active" href="/product/index.php">
               Product
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="/sale/index.php">
+            <a class="nav-link" href="/sale/index.php">
               Sale
             </a>
           </li>
@@ -65,41 +65,16 @@ require_once '../db.php';
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Summary</h1>
-        <a href="./form/index.php" class="btn btn-success">ขายสินค้า</a>
+        <h1 class="h2">Products</h1>
+        <a href="./form/index.html" class="btn btn-success">เพิ่มสินค้า</a>
       </div>
 
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th>รายการสินค้า</th>
-              <th>จำนวน</th>
-              <th>รวมเป็นเงิน</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <td colspan="2">รวมเป็นเงิน</td>
-            <td></td>
-          </tfoot>
-        </table>
-      </div>
-
-      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Sales</h1>
-      </div>
-      <div class="table-responsive">
-        <table class="table table-striped table-sm">
-          <thead>
-            <tr>
-              <th>รายการสินค้า</th>
+              <th>รหัส</th>
+              <th>ชื่อสินค้า</th>
               <th>จำนวน</th>
               <th>ราคา</th>
               <th>วันที่</th>
@@ -107,13 +82,27 @@ require_once '../db.php';
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
+<?php
+$stmt = $dbh->prepare('select * from product');
+$stmt->execute();
+$products = $stmt->fetchAll();
+foreach($products as $product) {
+  echo "<tr>
+    <td>{$product['id']}</td>
+    <td>{$product['name']}</td>
+    <td>{$product['amount']}</td>
+    <td>{$product['price']}</td>
+    <td>{$product['date']}</td>
+    <td>
+      <a href='./form/edit.php?id={$product['id']}' 
+      class='btn btn-primary'>แก้ไข</a>
+      <a href='./form/delete.php?id={$product['id']}' 
+      class='btn btn-danger' 
+      onclick='return confirm(\"คุณต้องการลบข้อมูลใช่หรือไม่\")'>ลบ</a>
+    </td>
+  </tr>";
+}
+?>
           </tbody>
         </table>
       </div>

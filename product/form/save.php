@@ -1,5 +1,5 @@
 <?php
-require_once '../db.php';
+require_once '../../db.php';
 try {
     if (empty($_GET['id'])) {
         $dbh->prepare('insert into product set
@@ -21,7 +21,7 @@ try {
             'id' => $_GET['id'],
         ]);
     }
-    header('location: /dashboard/index.php');
+    header('location: /product/index.php');
 } catch (PDOException $e) {
     echo $e->getMessage();
 }

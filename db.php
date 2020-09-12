@@ -1,5 +1,5 @@
 <?php
-$dns="mysql:host=127.0.0.1;port=3333;dbname=web;charset=utf8";
+$dns="mysql:host=db;dbname=web;charset=utf8";
 $username="root";
 $password="1234";
 
